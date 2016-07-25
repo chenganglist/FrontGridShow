@@ -398,6 +398,7 @@
             showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
             return (treeNode.click != false);
         }
+        
         function onClick(event, treeId, treeNode, clickFlag)
         {
             showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
@@ -967,11 +968,11 @@
                         }
                     },
                     {
-                        "data": "username",
+                        "data": "companyName",
                         "sClass" : "center"
                     },
-                    { "data": "realname" },
-                    { "data": "userState",
+                    { "data": "gridRoleName" },
+                    { "data": "gridStatus",
                         "render": function(data, type, full, meta) {
                             if(data=="正常")
                             {
@@ -984,11 +985,13 @@
                         }
 
                     },
-                    { "data": "phone" },
-                    { "data": "company",
+                    { "data": "gridID" },
+                    { "data": "gridRoleType",
                         "sWidth":"20%"
                     },
-                    { "data": "userGroup" },
+                    { "data": "startTime" },
+                    { "data": "endTime" }
+
 //                    { "data": "managementProvince" },
 //                    { "data": "managementCity" },
 //                    { "data": "managementArea" },
@@ -1712,7 +1715,7 @@
 
             }
             //获取数据并加载
-            queryGridRole(userInfo.companyID,"");
+            queryGridRole("");
 //            setup(); //初始化选择省市县框
 
             var result=GetQueryString("result"); //获取地址栏中的username参数
@@ -1890,7 +1893,7 @@
         {
             //获取查询参数
             var qsData = "operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=gridInfo"+gridRoleName;
-            alert(qsData);
+            //alert(qsData);
             //发起请求
             $.ajax({
                 async: false,
@@ -1923,8 +1926,9 @@
                         var sucInfo =  infoJson.success;
                         var firstuserInfo =sucInfo[0];
                         var areaID = firstuserInfo.areaID;
+
                         $('#userInfo').dataTable().fnClearTable();//清除表格内原有的数据
-                        alert(result);
+                        //alert(result);
                         $('#userInfo').dataTable().fnAddData(sucInfo,true);
 //                        reset();
                     }else {
@@ -2096,7 +2100,7 @@
                     </div>
                     <div class="txtBox">
                         <div class="item">
-                            <label for="editPerson_username">用户名：</label>
+                            <label for="editPerson_username">公司：</label>
                             <input type="text" id="editPerson_username" disabled="true">
                         </div>
                         <div class="item">
@@ -2241,14 +2245,15 @@
                                     <thead>
                                     <tr>
                                         <th><input type="checkbox" id="allcheck" name="allChecked" /></th>
-                                        <th>用户名</th>
-                                        <th>真实名</th>
-                                        <th>用户状态</th>
-                                        <th>手机号</th>
-                                        <th>公司</th>
+                                        <th>公司名称</th>
+                                        <th>角色名</th>
+                                        <th>角色状态</th>
+                                        <th>网格编号</th>
+                                        <th>角色类型</th>
                                         <!--<th>负责人电话</th>-->
                                         <!--<th>负责人公司</th>-->
-                                        <th>职衔</th>
+                                        <th>授权起始时间</th>
+                                        <th>授权结束时间</th>
                                         <!--<th>所属省份</th>-->
                                         <!--<th>所属市区</th>-->
                                         <!--<th>所属区县</th>-->
