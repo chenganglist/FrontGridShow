@@ -649,7 +649,9 @@
             {iconSkin:"icon01",id:4,name:"角色3",node_id:"578f4059ac0ac107fe97f0f7",node_level:2,open:true,pId:1},
             {iconSkin:"icon01",id:5,name:"角色4",node_id:"578f4059ac0ac107fe97f0f7",node_level:2,open:true,pId:1}
             ];
-            $.fn.zTree.init($("#treeDemo"), setting, zonejson);
+            var zTreeTools = $.fn.zTree.init($("#treeDemo"), setting, zonejson);
+			//zTreeTools.addNodes({null, {name:"角色6"});
+			//console.log($.fn.zTree.getSettings());
         });
 
         $(document).ready(function() {
@@ -1928,7 +1930,7 @@
                         var areaID = firstuserInfo.areaID;
 
                         $('#userInfo').dataTable().fnClearTable();//清除表格内原有的数据
-                        //alert(result);
+                        alert(result);
                         $('#userInfo').dataTable().fnAddData(sucInfo,true);
 //                        reset();
                     }else {
