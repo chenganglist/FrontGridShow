@@ -23,7 +23,7 @@
     background-color: rgba(0,0,0,.3);
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000);
     display: none;
-    z-index: 100;
+    z-index: 1;
 }
 
 .item label
@@ -57,7 +57,7 @@
     left: 50%;
     top: 30%;
     background-color: #ffffff;
-    z-index: 2147000001;
+    z-index: 1;
     width: 600px;
     height: auto;
     margin-left: -285px;
