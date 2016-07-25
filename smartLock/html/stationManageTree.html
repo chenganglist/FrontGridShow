@@ -1029,16 +1029,16 @@
                     { "data": "LAT" },
                     { "data": "LON" },
                     { "data": "HEI" },
-                    {
-                        "data":"_id",
-                        "render": function(data, type, full, meta) {
-                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
-                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
-
-                        },
-                        "sWidth": "10%",
-                    }
+//                    {
+//                        "data":"_id",
+//                        "render": function(data, type, full, meta) {
+//                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
+//                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+//                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
+//
+//                        },
+//                        "sWidth": "10%",
+//                    }
                 ],
                 language: {
                     "sProcessing": "处理中...",
@@ -2122,6 +2122,11 @@
 
 
 
+
+
+
+
+
                             <div class="queryCondition" id="queryStation">
                                 <div class="screen-top">
                                     <!--<span>基站负责人<input id="chargePerson" type="text"/></span>-->
@@ -2153,7 +2158,7 @@
                                         <th>纬度</th>
                                         <th>高度</th>
                                         <!--<th>作业审批人电话</th>-->
-                                        <th>操作</th>
+                                        <!--<th>操作</th>-->
                                     </tr>
                                     </thead>
                                     <tbody></tbody>

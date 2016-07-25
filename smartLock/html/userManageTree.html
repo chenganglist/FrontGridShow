@@ -5,7 +5,8 @@
     <title>智能锁管理平台</title>
     <style type="text/css">
         .screen-top{
-            padding:8px 0;
+            margin: 20px 0 0 0;
+            padding:20px 0;
             background-color:#f6f6f6;
         }
         .screen-top span{
@@ -95,7 +96,16 @@
         .ztree li span.treeButton.icon06_ico_docu{margin-right:2px; background: url(../assets/css/img/diy/8.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
     </style>
     <script type="text/javascript">
-
+        //全局定义变量
+        var table;
+        var originalID = "";
+        var originalUserType = "";
+        var originalCompanyID = "";
+        var userInfo=JSON.parse(localStorage.getItem("userInfo"));
+        var regionInfo=JSON.parse(localStorage.getItem("regionInfo"));
+        var permissions=JSON.parse(localStorage.getItem("permissions"));
+        var accessToken=localStorage.getItem("accessToken");
+        var tokenEndTime=localStorage.getItem("tokenEndTime");
 
         function Map()
         {
@@ -207,9 +217,9 @@
             { id:33, pId:3, name:"叶子节点3 - 3", zoneid:100,t:"唉，随便点我吧",iconSkin:"icon01"}
         ];
 
-        function getZoneStationJSon()
+        function getUserJSon()
         {
-            if(userInfo.userType!=="000")
+            if(userInfo.userType.substring(0,1)!=="0")
             {
                 var qsData = "operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=userInfo&companyID="+userInfo.companyID;
                 var sucInfo="";
@@ -432,213 +442,9 @@
         }
 
 
-        //新建基站
-        function createZone(){
-            //获取固定参数
-            var operatorName=userInfo.username;
-            var qsData="operatorName="+operatorName+"&accessToken="+accessToken;
-            var stationInfo = "";
-            //获取页面字段
-            var stationID = $("#new_stationID").val();
-            var address = $("#new_address").val();
-            var doorStatus = $("#new_doorStatus").val();
-            var lockID = $("#new_lockID").val();
-            var chargePerson = $("#new_chargePerson").val();
-            var chargePhone = $("#new_chargePhone").val();
-            var chargeCompany = $("#new_chargeCompany").val();
-            var managementProvince = $("#province").val();
-            var managementCity = $("#city").val();
-            var managementArea = $("#county").val();
-            var approvalPerson = $("#new_approvalPerson").val();
-            var approvalPhone = $("#new_approvalPhone").val();
-            //对页面字段进行判空处理
-            if (stationID==""||stationID==null){
-                alert("基站编号不能为空，请重新填写！");
-                $("#new_stationID").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else{
-                stationInfo = "&stationID="+stationID;
-            };
-            if(address==""||address==null){
-                alert("基站地址不能为空，请重新填写！");
-                $("#new_address").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&address="+address;
-            };
-            if(lockID==""||lockID==null){
-                alert("基站门锁ID不能为空，请重新填写！");
-                $("#new_lockID").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&lockID="+lockID;
-            };
-            if(chargePerson==""||chargePerson==null){
-                alert("基站负责人不能为空，请重新填写！");
-                $("#new_chargePerson").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&chargePerson="+chargePerson;
-            };
-            if(chargePhone==""||chargePhone==null){
-                alert("负责人联系电话不能为空，请重新填写！");
-                $("#new_chargePhone").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&chargePhone="+chargePhone;
-            };
-            if(chargeCompany==""||chargeCompany==null){
-                alert("负责人公司不能为空，请重新填写！");
-                $("#new_chargeCompany").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&chargeCompany="+chargeCompany;
-            };
-            if(managementProvince==""||managementProvince==null||managementProvince=="省份"){
-                alert("所属省级地域不能为空，请重新填写！");
-                $("#province").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&managementProvince="+managementProvince+"省";
-            };
-            if(managementCity==""||managementCity==null||managementCity=="地级市"){
-                alert("所属市级地域不能为空，请重新填写！");
-                $("#county").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&managementCity="+managementCity+"市";
-            };
-            if(managementArea==""||managementArea==null||managementArea=="市、县级市、县"){
-                alert("所属区级地域不能为空，请重新填写！");
-                $("#county").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&managementArea="+managementArea;
-            };
-            if(approvalPerson==""||approvalPerson==null){
-                alert("基站作业审批人不能为空，请重新填写！");
-                $("#new_approvalPerson").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&approvalPerson="+approvalPerson;
-            };
-            if(approvalPhone==""||approvalPhone==null){
-                alert("作业审批人电话不能为空，请重新填写！");
-                $("#new_approvalPhone").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&approvalPhone="+approvalPhone;
-            };
-
-
-
-            //判空结束
-            //组合新建基站字段
-            qsData = qsData+stationInfo;
-//            console.log("新建基站信息为："+stationInfo);
-            //发起请求
-
-
-
-            $.ajax({
-                async: false,
-                url: "https://www.smartlock.top/v0/addStation",
-                type: "POST",
-                contentType: "application/x-www-form-urlencoded",
-                data: qsData,
-                timeout: 8000,
-                beforeSend: function ()
-                {
-
-                },
-                success: function (result) {
-
-                    //将返回数据转化为json格式数据
-                    var infoJson =JSON.parse(result);
-
-                    //判断查询是否成功
-                    if (infoJson.error){
-                        var errInfo = infoJson.error;
-                        alert(errInfo.msg);
-                        $("#createStation").submit(function()
-                        {
-                            return false;
-                        });
-                        if(errInfo.code=="00000"){
-                            window.location.href="login.html";
-                        }
-                    }else if (infoJson.success)
-                    {
-                        var sucInfo =  infoJson.success;
-                        var msg = sucInfo.msg;
-                        alert(msg);
-                        clear_createStation();
-                        $("#createStation").submit(function()
-                        {
-                            return false;
-                        });
-                    }else {
-                        alert("未知错误，请联系管理员！")
-                    }
-                },
-                error: function (result) {
-//                    console.log(result);
-                    alert("无法连接到服务器！");
-                    $("#createStation").submit(function()
-                    {
-                        return false;
-                    });
-                }
-
-            });
-        };
 
         $(document).ready(function(){
-            var zonejson=getZoneStationJSon();
+            var zonejson=getUserJSon();
             $.fn.zTree.init($("#treeDemo"), setting, zonejson);
         });
         $(document).ready(function() {
@@ -918,25 +724,6 @@
     </script>
     <!--编辑框结束-->
     <script type="text/javascript">
-        //全局定义变量
-        var table;
-        var userInfo=JSON.parse(localStorage.getItem("userInfo"));
-        var tokenEndTime=localStorage.getItem("tokenEndTime");
-        var originalID = "";
-        var originalUserType = "";
-        var originalCompanyID = "";
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         /**
@@ -945,7 +732,7 @@
         $(document).ready(function() {
             //新建基站
             table = $('#userInfo').DataTable( {
-                "searching": false,
+                "searching": true,
                 "bStateSave": false,
                 "aoColumns": [
                     {
@@ -978,7 +765,25 @@
                     { "data": "company",
                         "sWidth":"20%"
                     },
-                    { "data": "userGroup" },
+                    { "data": "userType",
+                        "render":function(data,type,full,meta)
+                        {
+                            if(data[2]==1)
+                            {
+                                return "管理员";
+                            }
+                            else if(data[2]==2)
+                            {
+                                return "审批员";
+                            }
+                            else if(data[2]==3)
+                            {
+                                return "工程师";
+                            }
+                        }
+
+
+                    },
 //                    { "data": "managementProvince" },
 //                    { "data": "managementCity" },
 //                    { "data": "managementArea" },
@@ -1181,17 +986,12 @@
 
                 };
             });
-
             /**
              * 点击修改按钮
              */
             $(".button[id=alter]").click(function()
             {
-//                var bool=window.confirm('你确认要删除选中数据？');
-//                if(bool==false)
-//                {
-//                    return;
-//                }
+
                 var theArray = [];
                 var a = table.rows('.selected').data();
                 for(var i=0;i< a.length;i++)
@@ -1234,15 +1034,15 @@
                     $("#edit_phone").val(phone);
                     if(userType[2]==1)
                     {
-                        $("#edit_userType").val("管理员");
+                        $("#edit_userType").get(0).selectedIndex=0;
                     }
                     else if(userType[2]==2)
                     {
-                        $("#edit_userType").val("审批员");
+                        $("#edit_userType").get(0).selectedIndex=1;
                     }
                     else if(userType[2]==3)
                     {
-                        $("#edit_userType").val("工程师");
+                        $("#edit_userType").get(0).selectedIndex=2;
                     }
                     $("#edit_userState").val(userState);
                     $("#edit_addStationAction").attr("checked",addStationAction); //编辑页面中显示用户新增基站权限
@@ -1590,11 +1390,7 @@
 
     </script>
     <script type="text/javascript">
-        var userInfo=JSON.parse(localStorage.getItem("userInfo"));
-        var regionInfo=JSON.parse(localStorage.getItem("regionInfo"));
-        var permissions=JSON.parse(localStorage.getItem("permissions"));
-        var accessToken=localStorage.getItem("accessToken");
-        var tokenEndTime=localStorage.getItem("tokenEndTime");
+
         //检查是否有登录状态
         function  checkUserValidity(){
             if(userInfo==null||accessToken==null) //访问的信息不存在，则返回空
@@ -1741,7 +1537,7 @@
 
             switch(userType)
             {
-                case "000":
+                case "001":
                     document.getElementById("loginuser").innerHTML="<br>超级管理员<br>"+userInfo.username;
                     break;
 
@@ -1935,8 +1731,114 @@
                     alert("无法连接到服务器！");
                 }
             });
+
+
+
+
+
         };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function getUserSeting()
+        {
+            var addStationAction=document.getElementById("edit_addStationAction"); //获取新增基站的checkbox对象
+            var deleteStationAction=document.getElementById("edit_deleteStationAction"); //获取删除基站的checkbox对象
+            var queryStationAction=document.getElementById("edit_queryStationAction"); //获取查询基站的checkbox对象
+            var updateStationAction=document.getElementById("edit_updateStationAction"); //获取更新基站的checkbox对象
+
+            var addStaffAction=document.getElementById("edit_addStaffAction"); //获取新增员工的checkbox对象
+            var deleteStaffAction=document.getElementById("edit_deleteStaffAction"); //获取删除员工的checkbox对象
+            var queryStaffAction=document.getElementById("edit_queryStaffAction"); //获取查询员工的checkbox对象
+            var updateStaffAction=document.getElementById("edit_updateStaffAction"); //获取更新员工的checkbox对象
+
+            var addKeyAction=document.getElementById("edit_addKeyAction"); //获取新增钥匙的checkbox对象
+            var deleteKeyAction=document.getElementById("edit_deleteKeyAction"); //获取删除钥匙的checkbox对象
+            var queryKeyAction=document.getElementById("edit_queryKeyAction"); //获取查询钥匙的checkbox对象
+            var updateKeyAction=document.getElementById("edit_updateKeyAction"); //获取更新钥匙的checkbox对象
+
+            var doorAuthorization=document.getElementById("edit_doorAuthorization"); //获取工单审批权限的checkbox对象
+
+
+            var index = $("#edit_userType").get(0).selectedIndex;
+            if(index==0)
+            {
+                addStationAction.checked=true; //管理员默认拥有新增基站权限
+                deleteStationAction.checked=true; //管理员默认拥有删除基站权限
+                queryStationAction.checked=true; //管理员默认拥有查询基站权限
+                updateStationAction.checked=true; //管理员默认拥有更新基站权限
+
+                addStaffAction.checked=true; //管理员默认拥有新增员工权限
+                deleteStaffAction.checked=true; //管理员默认拥有删除员工权限
+                queryStaffAction.checked=true; //管理员默认拥有查询员工权限
+                updateStaffAction.checked=true; //管理员默认拥有更新员工权限
+
+                addKeyAction.checked=true; //管理员默认拥有新增钥匙权限
+                deleteKeyAction.checked=true; //管理员默认拥有删除钥匙权限
+                queryKeyAction.checked=true; //管理员默认拥有查询钥匙权限
+                updateKeyAction.checked=true; //管理员默认拥有更新钥匙权限
+
+
+                doorAuthorization.checked=true; //管理员默认拥有工单审批权限
+            }
+            else if(index==1)
+            {
+                addStationAction.checked=false; //审批员默认不拥有新增基站权限
+                deleteStationAction.checked=false; //审批员默认不拥有删除基站权限
+                queryStationAction.checked=false; //审批员默认不拥有查询基站权限
+                updateStationAction.checked=false; //审批员默认不拥有更新基站权限
+
+                addStaffAction.checked=false; //审批员默认不拥有新增员工权限
+                deleteStaffAction.checked=false; //审批员默认不拥有删除员工权限
+                queryStaffAction.checked=false; //审批员默认不拥有查询员工权限
+                updateStaffAction.checked=false; //审批员默认不拥有更新员工权限
+
+                addKeyAction.checked=false; //审批员默认不拥有新增钥匙权限
+                deleteKeyAction.checked=false; //审批员默认不拥有删除钥匙权限
+                queryKeyAction.checked=false; //审批员默认不拥有查询钥匙权限
+                updateKeyAction.checked=false; //审批员默认不拥有更新钥匙权限
+
+
+                doorAuthorization.checked=true; //审批员默认拥有工单审批权限
+
+            }
+            else if(index==2)
+            {
+                addStationAction.checked=false; //工程师默认不拥有新增基站权限
+                deleteStationAction.checked=false; //工程师默认不拥有删除基站权限
+                queryStationAction.checked=false; //工程师默认不拥有查询基站权限
+                updateStationAction.checked=false; //工程师默认不拥有更新基站权限
+
+                addStaffAction.checked=false; //工程师默认不拥有新增员工权限
+                deleteStaffAction.checked=false; //工程师默认不拥有删除员工权限
+                queryStaffAction.checked=false; //工程师默认不拥有查询员工权限
+                updateStaffAction.checked=false; //工程师默认不拥有更新员工权限
+
+                addKeyAction.checked=false; //工程师默认不拥有新增钥匙权限
+                deleteKeyAction.checked=false; //工程师默认不拥有删除钥匙权限
+                queryKeyAction.checked=false; //工程师默认不拥有查询钥匙权限
+                updateKeyAction.checked=false; //工程师默认不拥有更新钥匙权限
+
+                doorAuthorization.checked=false; //工程师默认不拥有工单审批权限
+            }
+
+        }
     </script>
 </head>
 
@@ -2061,170 +1963,176 @@
         </ul> <!-- End #main-nav -->
 
     </div></div> <!-- End #sidebar -->
-
-
     <div id="main-content"> <!-- Main Content Section with everything -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- Page Head -->
         <h2 id="username1"> </h2>
-
         <div class="clear"></div> <!-- End .clear -->
+        <!--修改个人资料弹出编辑框开始-->
+        <div class="dialog">
+            <div class="model-bg" title="editPersonInfo"></div>
+            <div class="popBox" title="editPersonInfo">
+                <div class="ttBox">
+                    <a class="clsBtn" title="editPersonInfo"></a>
+                    <span class="tt">修改个人信息</span>
+                </div>
+                <div class="txtBox">
+                    <div class="item">
+                        <label for="editPerson_username">用户名：</label>
+                        <input type="text" id="editPerson_username" disabled="true">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_userType">用户类型：</label>
+                        <input type="text" id="editPerson_userType" disabled="true">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_company">用户所属公司：</label>
+                        <input type="text" id="editPerson_company" disabled="true">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_phone">手机号码：</label>
+                        <input type="text" id="editPerson_phone" disabled="true">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_originalPassword">原始密码：</label>
+                        <input type="password" id="editPerson_originalPassword">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_newPassword1">新密码：</label>
+                        <input type="password" id="editPerson_newPassword1">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_newPassword2">确认新密码：</label>
+                        <input type="password" id="editPerson_newPassword2">
+                    </div>
+                </div>
+                <div class="btnArea">
+                    <div class="btnGroup">
+                        <a class="sgBtn ok" id="submit_editPerson">确定</a>
+                        <a class="sgBtn cancel" id="cancel_editPerson">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--弹出编辑框结束-->
+        <!--编辑员工资料弹出编辑框开始-->
+        <div class="dialog">
+            <div class="model-bg" title="editOneUserInfo"></div>
+            <div class="popBox" title="editOneUserInfo">
+                <div class="ttBox">
+                    <a class="clsBtn" title="editOneUserInfo"></a>
+                    <span class="tt">修改用户信息</span>
+                </div>
+                <div class="txtBox">
+                    <div class="item">
+                        <label for="edit_username">用户名：</label>
+                        <input type="text" id="edit_username" >
+                    </div>
+                    <div class="item">
+                        <label for="edit_realname">真实名：</label>
+                        <input type="text" id="edit_realname" >
+                    </div>
+                    <div class="item">
+                        <label for="edit_phone">手机号：</label>
+                        <input type="text" id="edit_phone" >
+                    </div>
+                    <div class="item">
+                        <label for="edit_userType">员工类型：</label>
+                        <select id="edit_userType" class="edit_select" onchange="getUserSeting()">
+                            <option value="1" >管理员</option>
+                            <option value="2" >审批员</option>
+                            <option value="3" >工程师</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label for="edit_userState">用户状态：</label>
+                        <select id="edit_userState" class="edit_select">
+                            <option value="正常">正常</option>
+                            <option value="禁用">禁用</option>
+                        </select>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<input type="radio" name="edit_updateUserType" onclick="getManagerSeting()" /> 管理员-->
+                    <!--<input type="radio" name="edit_updateUserType" onclick="getExaminationSeting()" /> 审批员-->
+                    <!--<input type="radio" name="edit_updateUserType" onclick="getEnginerSeting()" /> 工程师-->
+                    <!--</div>-->
+                    <div class="item">
+                        <input class="checkBox001" type="checkbox" name="edit_addStationAction" id="edit_addStationAction" /><strong>增加</strong>基站权限
+                        <input class="checkBox001" type="checkbox" name="edit_deleteStationAction" id="edit_deleteStationAction"  /> <strong>删除</strong>基站权限
+                        <input class="checkBox001" type="checkbox" name="edit_queryStationAction" id="edit_queryStationAction"   /> <strong>查询</strong>基站权限
+                        <input class="checkBox001" type="checkbox" name="edit_updateStationAction" id="edit_updateStationAction"  /> <strong>修改</strong>基站权限
+                        <br>
+                        <input class="checkBox001" type="checkbox" name="edit_addStaffAction" id="edit_addStaffAction" /> <strong>增加</strong>员工权限
+                        <input class="checkBox001" type="checkbox" name="edit_deleteStaffAction" id="edit_deleteStaffAction"  /> <strong>删除</strong>员工权限
+                        <input class="checkBox001" type="checkbox" name="edit_queryStaffAction" id="edit_queryStaffAction"  /> <strong>查询</strong>员工权限
+                        <input class="checkBox001" type="checkbox" name="edit_updateStaffAction" id="edit_updateStaffAction"  /> <strong>修改</strong>员工权限
+                        <br>
+                        <input class="checkBox001" type="checkbox" name="edit_addKeyAction" id="edit_addKeyAction" /> <strong>增加</strong>钥匙权限
+                        <input class="checkBox001" type="checkbox" name="edit_deleteKeyAction" id="edit_deleteKeyAction"  /> <strong>删除</strong>钥匙权限
+                        <input class="checkBox001" type="checkbox" name="edit_queryKeyAction" id="edit_queryKeyAction"  /> <strong>查询</strong>钥匙权限
+                        <input class="checkBox001" type="checkbox" name="edit_updateKeyAction" id="edit_updateKeyAction"  /> <strong>修改</strong>钥匙权限
+                        <br>
+                        <input class="checkBox001" type="checkbox" name="edit_doorAuthorization" id="edit_doorAuthorization" /> <strong>工单审批权限</strong>
+
+                    </div>
+                </div>
+                <div class="txtBox">
+                    <!--<label for="edit_addStationAction">-->
+
+                </div>
+
+
+
+                <div class="btnArea">
+                    <div class="btnGroup">
+                        <a class="sgBtn ok" id="submit_editUserInfo">确定</a>
+                        <a class="sgBtn cancel" id="cancel_editStationInfo">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--弹出编辑框结束-->
+
+
         <div class="content-box"><!-- Start Content Box -->
             <div class="content-box-header">
-                <!--<h3>内容模块</h3>-->
                 <ul class="content-box-tabs">
-                    <li><a class="default-tab" href="#stationList" >基站列表</a></li> <!-- href must be unique and match the id of target div -->
+                    <li><a class="default-tab" href="#stationList" >员工列表</a></li> <!-- href must be unique and match the id of target div -->
 
                 </ul>
                 <div class="clear"></div>
             </div> <!-- End .content-box-header -->
-            <!--弹出编辑框开始-->
-            <div class="dialog">
-                <div class="model-bg" title="editPersonInfo"></div>
-                <div class="popBox" title="editPersonInfo">
-                    <div class="ttBox">
-                        <a class="clsBtn" title="editPersonInfo"></a>
-                        <span class="tt">修改个人信息</span>
-                    </div>
-                    <div class="txtBox">
-                        <div class="item">
-                            <label for="editPerson_username">用户名：</label>
-                            <input type="text" id="editPerson_username" disabled="true">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_userType">用户类型：</label>
-                            <input type="text" id="editPerson_userType" disabled="true">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_company">用户所属公司：</label>
-                            <input type="text" id="editPerson_company" disabled="true">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_phone">手机号码：</label>
-                            <input type="text" id="editPerson_phone" disabled="true">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_originalPassword">原始密码：</label>
-                            <input type="password" id="editPerson_originalPassword">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_newPassword1">新密码：</label>
-                            <input type="password" id="editPerson_newPassword1">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_newPassword2">确认新密码：</label>
-                            <input type="password" id="editPerson_newPassword2">
-                        </div>
-                    </div>
-                    <div class="btnArea">
-                        <div class="btnGroup">
-                            <a class="sgBtn ok" id="submit_editPerson">确定</a>
-                            <a class="sgBtn cancel" id="cancel_editPerson">取消</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dialog" title="editOneUserInfo">
-                <div class="model-bg" title="editOneUserInfo"></div>
-                <div class="popBox" title="editOneUserInfo">
-                    <div class="ttBox">
-                        <a class="clsBtn" title="editOneUserInfo"></a>
-                        <span class="tt">修改用户信息</span>
-                    </div>
-                    <div class="txtBox">
-                        <div class="item">
-                            <label for="edit_username">用户名：</label>
-                            <input type="text" id="edit_username" >
-                        </div>
-                        <div class="item">
-                            <label for="edit_realname">真实名：</label>
-                            <input type="text" id="edit_realname" >
-                        </div>
-                        <div class="item">
-                            <label for="edit_phone">手机号：</label>
-                            <input type="text" id="edit_phone" >
-                        </div>
-                        <div class="item">
-                            <label for="edit_userType">员工类型：</label>
-                            <select id="edit_userType" class="edit_select">
-                                <option value="1">管理员</option>
-                                <option value="2">审批员</option>
-                                <option value="3">工程师</option>
-                            </select>
-                        </div>
-                        <div class="item">
-                            <label for="edit_userState">用户状态：</label>
-                            <select id="edit_userState" class="edit_select">
-                                <option value="正常">正常</option>
-                                <option value="禁用">禁用</option>
-                            </select>
-                        </div>
-                        <div class="item">
-                            <input class="checkBox001" type="checkbox" name="edit_addStationAction" id="edit_addStationAction" /><strong>增加</strong>基站权限
-                            <input class="checkBox001" type="checkbox" name="edit_deleteStationAction" id="edit_deleteStationAction"  /> <strong>删除</strong>基站权限
-                            <input class="checkBox001" type="checkbox" name="edit_queryStationAction" id="edit_queryStationAction"   /> <strong>查询</strong>基站权限
-                            <input class="checkBox001" type="checkbox" name="edit_updateStationAction" id="edit_updateStationAction"  /> <strong>修改</strong>基站权限
-                            <br>
-                            <input class="checkBox001" type="checkbox" name="edit_addStaffAction" id="edit_addStaffAction" /> <strong>增加</strong>员工权限
-                            <input class="checkBox001" type="checkbox" name="edit_deleteStaffAction" id="edit_deleteStaffAction"  /> <strong>删除</strong>员工权限
-                            <input class="checkBox001" type="checkbox" name="edit_queryStaffAction" id="edit_queryStaffAction"  /> <strong>查询</strong>员工权限
-                            <input class="checkBox001" type="checkbox" name="edit_updateStaffAction" id="edit_updateStaffAction"  /> <strong>修改</strong>员工权限
-                            <br>
-                            <input class="checkBox001" type="checkbox" name="edit_addKeyAction" id="edit_addKeyAction" /> <strong>增加</strong>钥匙权限
-                            <input class="checkBox001" type="checkbox" name="edit_deleteKeyAction" id="edit_deleteKeyAction"  /> <strong>删除</strong>钥匙权限
-                            <input class="checkBox001" type="checkbox" name="edit_queryKeyAction" id="edit_queryKeyAction"  /> <strong>查询</strong>钥匙权限
-                            <input class="checkBox001" type="checkbox" name="edit_updateKeyAction" id="edit_updateKeyAction"  /> <strong>修改</strong>钥匙权限
-                            <br>
-                            <input class="checkBox001" type="checkbox" name="edit_doorAuthorization" id="edit_doorAuthorization" /> <strong>工单审批权限</strong>
-
-                        </div>
-                    </div>
-                    <div class="txtBox">
-                            <!--<label for="edit_addStationAction">-->
-
-                    </div>
 
 
-
-                    <div class="btnArea">
-                        <div class="btnGroup">
-                            <a class="sgBtn ok" id="submit_editUserInfo">确定</a>
-                            <a class="sgBtn cancel" id="cancel_editStationInfo">取消</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--弹出编辑框结束-->
             <div class="content-box-content">
-
                 <div class="tab-content default-tab" id="stationList"> 	<!-- This is the target div. id must match the href of this div's tab -->
                     <div class="content_wrap">
                         <div class="zTreeDemoBackground left">
                             <ul id="treeDemo" class="ztree"></ul>
                         </div>
                         <div class="right">
-
-                            <!--<ul class="info">-->
-                                <!--<li class="title"><h2>1、beforeClick / onClick 事件回调函数控制</h2>-->
-                                    <!--<ul class="list">-->
-                                        <!--<li>利用 click 事件回调函数 可以进行各种其他的附加操作，这里简单演示如何监控此事件</li>-->
-                                        <!--<li><p><span class="highlight_red">请尝试按下 <b>Ctrl</b> 或 <b>Cmd</b> 键进行 多节点选择 和 取消选择</span><br/>-->
-                                            <!--click log:<br/>-->
-                                            <!--<ul id="log" class="log"></ul></p>-->
-                                        <!--</li>-->
-                                    <!--</ul>-->
-                                <!--</li>-->
-
-                            <!--</ul>-->
-
                             <div class="queryCondition" id="queryUser">
                                 <div class="screen-top">
-                                    <!--<span>基站负责人<input id="chargePerson" type="text"/></span>-->
-                                    <!--<span>作业审批人<input id="approvalPerson" type="text"  /></span>-->
                                     <input class="button" id="query" type="submit" value="增加" />
-                                    <input class="button" id="alter" type="reset" value="修改" />
-                                    <!--<input class="button" id="exportxls" type="button" value="导出xls" />-->
+                                    <input class="button" id="alter" type="button" value="修改" />
                                     <input class="button" id="delete" type="button" value="删除"/>
-                                    <!--<input class="button" id="createSation" type="button" value="新建基站"/>-->
                                 </div>
                             </div>
                             <div>
@@ -2237,14 +2145,7 @@
                                         <th>用户状态</th>
                                         <th>手机号</th>
                                         <th>公司</th>
-                                        <!--<th>负责人电话</th>-->
-                                        <!--<th>负责人公司</th>-->
                                         <th>职衔</th>
-                                        <!--<th>所属省份</th>-->
-                                        <!--<th>所属市区</th>-->
-                                        <!--<th>所属区县</th>-->
-                                        <!--<th>作业审批人电话</th>-->
-                                        <!--<th>操作</th>-->
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -2254,18 +2155,10 @@
                     </div>
 
 
-
                 </div> <!-- End #stationList -->
-
-
-
-
-
-
             </div> <!-- End .content-box-content -->
 
         </div> <!-- End .content-box -->
-
         <div id="footer">
             <small> <!-- Remove this notice or replace it with whatever you want -->
                 &#169; Copyright 2016 四川九鼎数码科技有限公司 | Powered by UESTC CSIS</a> | <a href="#top">Top</a>

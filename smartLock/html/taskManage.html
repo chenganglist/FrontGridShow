@@ -25,43 +25,6 @@
             color: #333;
             width: 15% !important;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </style>
     <!--CSS-->
     <script type="text/javascript" src="../assets/js/jquery-1.8.0.min.js"></script>
@@ -107,10 +70,6 @@
             overflow: auto;
         }
     </style>
-
-
-
-
     <script type="text/javascript">
         //显示条目编辑框
         $(document).ready(function() {
@@ -120,6 +79,7 @@
             $(".model").click(function(event) {
                 $(".model-bg[title=oneTaskInfo],.popBox[title=oneTaskInfo]").show();
             });
+
             $("#cancel_eidtTask").click(function(event) {
                 $(".popBox[title=oneTaskInfo] input").val("");
                 $(".popBox[title=oneTaskInfo] textarea").val("");
@@ -140,9 +100,6 @@
                 $(".model-bg[title=editPersonInfo],.popBox[title=editPersonInfo]").hide();
             });
         });
-
-
-
         //个人资料编辑交互方法控制
         $(document).ready(function(){
             /**
@@ -159,10 +116,6 @@
                 var displayUserType="";
                 if(userType!=""||userType!=null){
                     switch(userType[0]){
-                        case "0":
-                            displayUserType="超级管理员";
-                            break;
-
                         case "1":
                             displayUserType="铁塔公司";
                             switch (userType[1]){
@@ -189,7 +142,7 @@
                             }
                             break;
                         case "2":
-                            displayUserType="中国移动";
+                            displayUserType="运营商";
                             switch (userType[1]){
                                 case "0":
                                     displayUserType+="省级";
@@ -214,56 +167,6 @@
                             }
                             break;
                         case "3":
-                            displayUserType="中国联通";
-                            switch (userType[1]){
-                                case "0":
-                                    displayUserType+="省级";
-                                    break;
-                                case "1":
-                                    displayUserType+="市级"
-                                    break;
-                                case "2":
-                                    displayUserType+="县区级";
-                                    break;
-                            }
-                            switch (userType[2]){
-                                case "1":
-                                    displayUserType+="管理员";
-                                    break;
-                                case "2":
-                                    displayUserType+="审批员";
-                                    break;
-                                case "3":
-                                    displayUserType+="工程师";
-                                    break;
-                            }
-                            break;
-                        case "4":
-                            displayUserType="中国电信";
-                            switch (userType[1]){
-                                case "0":
-                                    displayUserType+="省级";
-                                    break;
-                                case "1":
-                                    displayUserType+="市级"
-                                    break;
-                                case "2":
-                                    displayUserType+="县区级";
-                                    break;
-                            }
-                            switch (userType[2]){
-                                case "1":
-                                    displayUserType+="管理员";
-                                    break;
-                                case "2":
-                                    displayUserType+="审批员";
-                                    break;
-                                case "3":
-                                    displayUserType+="工程师";
-                                    break;
-                            }
-                            break;
-                        case "5":
                             displayUserType="施工公司";
                             switch (userType[2]){
                                 case "1":
@@ -277,7 +180,7 @@
                                     break;
                             }
                             break;
-                        case "6":
+                        case "4":
                             displayUserType="代维公司";
                             switch (userType[2]){
                                 case "1":
@@ -291,7 +194,7 @@
                                     break;
                             }
                             break;
-                        case "7":
+                        case "5":
                             displayUserType="厂商";
                             switch (userType[2]){
                                 case "1":
@@ -404,7 +307,6 @@
     <script type="text/javascript">
         //全局定义变量
         var tabContent ="#allTaskListTable";
-		var tableName = "#allTaskListTable";
         var allTaskListTable ;
         var table ;
         var pendingTaskListTable ;
@@ -1140,6 +1042,8 @@
 
             });
         });
+    </script>
+    <script type="text/javascript">
         var userInfo=JSON.parse(localStorage.getItem("userInfo"));
         var regionInfo=JSON.parse(localStorage.getItem("regionInfo"));
         var permissions=JSON.parse(localStorage.getItem("permissions"));
@@ -1166,9 +1070,6 @@
                     var userType=userInfo.userType;
                     switch(userType[2])
                     {
-                        case "0": //超级管理员
-                            break;
-
                         case "3":  //用户为工程师，用户不能登录前端页面
                             alert("工程师不能登录前端!");
                             window.location.href = "login.html";
@@ -1186,52 +1087,35 @@
                                 case "1": //铁塔公司的管理员可以管理所有公司的员工
 
                                     break;
-                                case "2": //中国移动工不能查看铁塔公司管理界面、中国联通公司管理界面、中国电信公司管理界面
-                                    $("#ttyg").css('display','none'); //隐藏铁塔员工管理界面
-                                    $("#ltyg").css('display','none'); //隐藏中国移动员工管理界面
-                                    $("#dxyg").css('display','none'); //隐藏中国电信员工管理界面
+                                case "2": //运营商管理员可以管理除了铁塔公司外的所有员工
+                                    $("#ttyg").css('display','none'); //隐藏铁塔公司员工管理界面
                                     break;
-                                case "3": //中国联通工不能查看铁塔公司管理界面、中国移动公司管理界面、中国电信公司管理界面
-                                    $("#ttyg").css('display','none'); //隐藏铁塔员工管理界面
-                                    $("#ydyg").css('display','none'); //隐藏中国移动员工管理界面
-                                    $("#dxyg").css('display','none'); //隐藏中国电信员工管理界面
-                                    break;
-                                case "4": //中国电信工不能查看铁塔公司管理界面、中国移动公司管理界面、中国联通公司管理界面
-                                    $("#ttyg").css('display','none'); //隐藏铁塔员工管理界面
-                                    $("#ydyg").css('display','none'); //隐藏中国移动员工管理界面
-                                    $("#ltyg").css('display','none'); //隐藏中国电信员工管理界面
-                                    break;
-                                case "5": //施工公司员工只能管理自己所属公司员工
-                                    $("#ttyg").css('display','none'); //隐藏铁塔员工管理界面
-
-                                    $("#ydyg").css('display','none'); //隐藏中国移动员工管理界面
-                                    $("#ltyg").css('display','none'); //隐藏中国联通员工管理界面
-                                    $("#dxyg").css('display','none'); //隐藏中国电信员工管理界面
-
-                                    $("#dwgsyg").css('display','none');//隐藏代维公司员工管理界面
-                                    $("#csyg").css('display','none');  //隐藏厂商员工管理界面
-                                    $("#jizhanguanli").css('display','none'); //不能显示基站管理
-                                    $("#dianziyaoshiguanli").css('display','none'); //不能显示电子钥匙管理
-                                    break;
-                                case "6": //代维公司员工只能管理自己所属公司员工
-                                    $("#ttyg").css('display','none'); //隐藏铁塔员工管理界面
-
-                                    $("#ydyg").css('display','none'); //隐藏中国移动员工管理界面
-                                    $("#ltyg").css('display','none'); //隐藏中国联通员工管理界面
-                                    $("#dxyg").css('display','none'); //隐藏中国电信员工管理界面
-
-                                    $("#sggsyg").css('display','none');  //隐藏施工公司员工管理界面
+                                case "3":  //施工公司管理员只能管理自己属于的施工公司
+                                    $("#ttyg").css('display','none'); //隐藏铁塔公司员工管理界面
+                                    $("#yysyg").css('display','none'); //隐藏运营商公司员工管理界面
+                                    $("#dwgsyg").css('display','none'); //隐藏代维公司员工管理界面
                                     $("#csyg").css('display','none'); //隐藏厂商公司员工管理界面
                                     $("#jizhanguanli").css('display','none'); //不能显示基站管理
                                     $("#dianziyaoshiguanli").css('display','none'); //不能显示电子钥匙管理
+
+
                                     break;
-                                case "7": //厂商公司员工只能管理自己所属公司员工
+                                case "4": //代维公司管理员只能管理自己属于的代维公司
                                     $("#ttyg").css('display','none'); //隐藏铁塔公司员工管理界面
+                                    $("#yysyg").css('display','none'); //隐藏运营商公司员工管理界面
+                                    $("#sggsyg").css('display','none'); //隐藏施工公司员工管理界面
+                                    $("#csyg").css('display','none'); //隐藏厂商公司员工管理界面
 
-                                    $("#ydyg").css('display','none'); //隐藏中国移动员工管理界面
-                                    $("#ltyg").css('display','none'); //隐藏中国联通员工管理界面
-                                    $("#dxyg").css('display','none'); //隐藏中国电信员工管理界面
-
+                                    $("#userType401").css('display','none'); //代维公司管理员不能自己添加管理员，隐藏管理员新增按钮
+                                    $("#company_name").css('display','none'); //代维公司管理员只能管理自己所属代维公司，所以不需要显示公司名
+                                    $("#staff_location").css('display','none'); //代维公司管理员只能管理自己所属代维公司，所以不需要显示公司地区
+                                    $("#authority").css('display','none'); //代维公司管理员只能授予开门权限，其他权限的新增按钮要隐藏
+                                    $("#jizhanguanli").css('display','none'); //不能显示基站管理
+                                    $("#dianziyaoshiguanli").css('display','none'); //不能显示电子钥匙管理
+                                    break;
+                                case "5": //厂商公司管理员只能管理自己属于的厂商公司
+                                    $("#ttyg").css('display','none'); //隐藏铁塔公司员工管理界面
+                                    $("#yysyg").css('display','none'); //隐藏运营商公司员工管理界面
                                     $("#sggsyg").css('display','none'); //隐藏施工公司员工管理界面
                                     $("#dwgsyg").css('display','none'); //隐藏代维公司员工管理界面
                                     $("#jizhanguanli").css('display','none'); //不能显示基站管理
@@ -1245,10 +1129,6 @@
 
                             break;
                     }
-
-
-
-
 
 						showUserInformation(); //侧边栏显示当前用户公司 管理区域 职位 用户名
                 }
@@ -1271,7 +1151,7 @@
         };
         //重置按钮功能
         function resetNoArgs(){
-            tableName = tabContent;
+            var tableName = tabContent;
             reset(tableName);
         }
         function reset(tableName){
@@ -1280,6 +1160,9 @@
                 $("#query_taskStartTime_all").val("");
                 $("#query_taskEndTime_all").val("");
                 $("#query_applicantName_all").val("");
+
+                $("#add_taskStartTime").val("");
+                $("#add_taskEndTime").val("");
             }else if(tableName=="#pendingTaskListTable"){
                 //对参数进行重置
                 $("#query_taskStartTime_pending").val("");
@@ -1349,6 +1232,13 @@
             var qsDate = collectQueryInfo(tabContent);
             taskFetch(qsDate,tabContent);
         }
+
+
+
+
+
+
+
         //获取工单列表
         function taskFetch(qsDataStr,tableName){
             var qsData = qsDataStr;
@@ -1474,16 +1364,19 @@
 
 
 
+
+
+
+
+
+
+
         function showUserInformation() //侧边栏显示当前用户公司 管理区域 职位 用户名
         {
             var userType=userInfo.userType;
 
             switch(userType)
             {
-                case "000":
-                    document.getElementById("loginuser").innerHTML="<br>超级管理员<br>"+userInfo.username;
-                    break;
-
                 case "101":
                     document.getElementById("loginuser").innerHTML="<br>铁塔公司省级管理员<br>"+userInfo.username;
                     break;
@@ -1493,112 +1386,241 @@
                 case "121":
                     document.getElementById("loginuser").innerHTML="<br>铁塔公司区县管理员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
                     break;
-                case "102":
-                    document.getElementById("loginuser").innerHTML="<br>铁塔公司省级审批员<br>"+userInfo.username;
-                    break;
-                case "112":
-                    document.getElementById("loginuser").innerHTML="<br>铁塔公司市级审批员<br>"+regionInfo.managementCity+" <br>"+userInfo.username;
-                    break;
-                case "122":
-                    document.getElementById("loginuser").innerHTML="<br>铁塔公司区县审批员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
-                    break;
-
-
                 case "201":
-                    document.getElementById("loginuser").innerHTML="<br>中国移动省级管理员<br>"+userInfo.username;
+                    document.getElementById("loginuser").innerHTML="<br>运营商省级管理员<br>"+userInfo.username;
                     break;
                 case "211":
-                    document.getElementById("loginuser").innerHTML="<br>中国移动市级管理员<br>"+regionInfo.managementCity+" <br>"+userInfo.username;
+                    document.getElementById("loginuser").innerHTML="<br>运营商市级管理员<br>"+regionInfo.managementCity+" <br>"+userInfo.username;
                     break;
                 case "221":
-                    document.getElementById("loginuser").innerHTML="<br>中国移动区县管理员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
+                    document.getElementById("loginuser").innerHTML="<br>运营商区县管理员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
                     break;
-                case "202":
-                    document.getElementById("loginuser").innerHTML="<br>中国移动省级审批员<br>"+userInfo.username;
-                    break;
-                case "212":
-                    document.getElementById("loginuser").innerHTML="<br>中国移动市级审批员<br>"+regionInfo.managementCity+" <br>"+userInfo.username;
-                    break;
-                case "222":
-                    document.getElementById("loginuser").innerHTML="<br>中国移动区县审批员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
-                    break;
-
                 case "301":
-                    document.getElementById("loginuser").innerHTML="<br>中国联通省级管理员<br>"+userInfo.username;
-                    break;
-                case "311":
-                    document.getElementById("loginuser").innerHTML="<br>中国联通市级管理员<br>"+regionInfo.managementCity+" <br>"+userInfo.username;
-                    break;
-                case "321":
-                    document.getElementById("loginuser").innerHTML="<br>中国联通区县管理员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
-                    break;
-                case "302":
-                    document.getElementById("loginuser").innerHTML="<br>中国联通省级审批员<br>"+userInfo.username;
-                    break;
-                case "312":
-                    document.getElementById("loginuser").innerHTML="<br>中国联通市级审批员<br>"+regionInfo.managementCity+" <br>"+userInfo.username;
-                    break;
-                case "322":
-                    document.getElementById("loginuser").innerHTML="<br>中国联通区县审批员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
-                    break;
-
-
-                case "401":
-                    document.getElementById("loginuser").innerHTML="<br>中国电信省级管理员<br>"+userInfo.username;
-                    break;
-                case "411":
-                    document.getElementById("loginuser").innerHTML="<br>中国电信市级管理员<br>"+regionInfo.managementCity+" <br>"+userInfo.username;
-                    break;
-                case "421":
-                    document.getElementById("loginuser").innerHTML="<br>中国电信区县管理员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
-                    break;
-                case "402":
-                    document.getElementById("loginuser").innerHTML="<br>中国电信省级审批员<br>"+userInfo.username;
-                    break;
-                case "412":
-                    document.getElementById("loginuser").innerHTML="<br>中国电信市级审批员<br>"+regionInfo.managementCity+" <br>"+userInfo.username;
-                    break;
-                case "422":
-                    document.getElementById("loginuser").innerHTML="<br>中国电信区县审批员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
-                    break;
-
-
-
-                case "501":
                     document.getElementById("loginuser").innerHTML="<br>施工公司管理员<br>"+userInfo.username;
                     break;
-                case "502":
+                case "302":
                     document.getElementById("loginuser").innerHTML="<br>施工公司审批员<br>"+userInfo.username;
                     break;
-
-
-
-                case "601":
+                case "401":
                     document.getElementById("loginuser").innerHTML="<br>代维公司管理员<br>"+userInfo.username;
                     break;
-                case "602":
+                case "402":
                     document.getElementById("loginuser").innerHTML="<br>代维公司审批员<br>"+userInfo.username;
                     break;
-
-
-                case "701":
+                case "501":
                     document.getElementById("loginuser").innerHTML="<br>厂商管理员<br>"+userInfo.username;
                     break;
-                case "702":
+                case "502":
                     document.getElementById("loginuser").innerHTML="<br>厂商审批员<br>"+userInfo.username;
                     break;
 
             }
 
         }
-        
+
+
+
+
+
+
+
+        /**
+         * 默认隐藏addOneTask弹出框
+         */
+        $(document).ready(function()
+        {
+//            $(".popBox[title=addOneTask] input").val("");
+//            $(".model-bg[title=addOneTask],.popBox[title=addOneTask]").hide();
+
+            $("#cancel_addOneTask").click(function(event)
+            {
+                $(".popBox[title=addOneTask] input").val("");
+                $(".model-bg[title=addOneTask],.popBox[title=addOneTask]").hide();
+            });
+
+            $(".clsBtn[title=addOneTask]").click(function(event)
+            {
+                $(".model-bg[title=addOneTask],.popBox[title=addOneTask]").hide();
+            });
+
+
+            /**
+             * 点击增加按钮
+             */
+//        $("#allTaskListAdd").click(function()
+            $(".button[id=allTaskListAdd]").click(function()
+            {
+
+                //显示编辑窗口
+                $(".model-bg[title=addOneTask],.popBox[title=addOneTask]").show();
+
+            });
+
+            /**
+             * 单击编辑窗口提交按钮
+             */
+            $('#submit_addOneTask').click(function(event)
+            {
+                alert("进入提交动作！");
+                //获取公共字段
+                var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=userInfo&originalID="+originalID;
+                var updateInfo = "";
+                //收集编辑框字段
+
+                var username=$("#edit_username").val();
+                var realname = $("#edit_realname").val();
+                var phone = $("#edit_phone").val();
+                var userType = $("#edit_userType").val();
+                var userState = $("#edit_userState").val();
+
+                var addStationAction=document.getElementById("edit_addStationAction").checked; //获取新增基站的选择状态
+                var deleteStationAction=document.getElementById("edit_deleteStationAction").checked; //获取删除基站的选择状态
+                var queryStationAction=document.getElementById("edit_queryStationAction").checked; //获取查询基站的选择状态
+                var updateStationAction=document.getElementById("edit_updateStationAction").checked; //获取更新基站的选择状态
+
+                var addStaffAction=document.getElementById("edit_addStaffAction").checked; //获取新增员工的选择状态
+                var deleteStaffAction=document.getElementById("edit_deleteStaffAction").checked; //获取删除员工的选择状态
+                var queryStaffAction=document.getElementById("edit_queryStaffAction").checked; //获取查询员工的选择状态
+                var updateStaffAction=document.getElementById("edit_updateStaffAction").checked; //获取更新员工的选择状态
+
+                var addKeyAction=document.getElementById("edit_addKeyAction").checked; //获取新增钥匙的选择状态
+                var deleteKeyAction=document.getElementById("edit_deleteKeyAction").checked; //获取删除钥匙的选择状态
+                var queryKeyAction=document.getElementById("edit_queryKeyAction").checked; //获取查询钥匙的选择状态
+                var updateKeyAction=document.getElementById("edit_updateKeyAction").checked; //获取更新钥匙的选择状态
+
+                var doorAuthorization=document.getElementById("edit_doorAuthorization").checked; //获取工单审批权限的选择状态
+
+                //对字段进行判空
+                if(username==""||username==null)
+                {
+                    alert("用户名不能为空，请重新填写！")
+                    $("#edit_username").focus();
+                    return;
+                }else{
+                    updateInfo="&username="+username;
+                }
+
+                if(realname==""||realname==null)
+                {
+                    alert("真实名不能为空，请重新填写！")
+                    $("#edit_realname").focus()
+                    return;
+                }else if(!isChineseChar(realname)) //检查真名是否为汉字
+                {
+                    alert("真实名必须为汉字！");
+                    $("#edit_realname").focus()
+                    return;
+                }
+                else
+                {
+                    updateInfo +="&realname="+realname;
+                }
+
+                if(phone==""||phone==null)
+                {
+                    alert("电话不能为空，请重新填写！")
+                    $("#edit_phone").focus()
+                    return;
+                }
+                else if(!isPhoneNo(phone)) //检查电话是合法
+                {
+                    alert("手机号格式有误！");
+                    $("#edit_phone").focus()
+                    return;
+                }
+                else
+                {
+                    updateInfo +="&phone="+phone;
+                }
+
+                updateInfo +="&userType="+originalUserType.substring(0,2)+userType;
+                updateInfo +="&userState="+userState;
+                updateInfo=updateInfo+"&addStationAction="+addStationAction;
+                updateInfo=updateInfo+"&deleteStationAction="+deleteStationAction;
+                updateInfo=updateInfo+"&queryStationAction="+queryStationAction;
+                updateInfo=updateInfo+"&updateStationAction="+updateStationAction;
+                updateInfo=updateInfo+"&addStaffAction="+addStaffAction;
+                updateInfo=updateInfo+"&deleteStaffAction="+deleteStaffAction;
+                updateInfo=updateInfo+"&queryStaffAction="+queryStaffAction;
+                updateInfo=updateInfo+"&updateStaffAction="+updateStaffAction;
+                updateInfo=updateInfo+"&addKeyAction="+addKeyAction;
+                updateInfo=updateInfo+"&deleteKeyAction="+deleteKeyAction;
+                updateInfo=updateInfo+"&queryKeyAction="+queryKeyAction;
+                updateInfo=updateInfo+"&updateKeyAction="+updateKeyAction;
+                updateInfo=updateInfo+"&doorAuthorization="+doorAuthorization;
+
+
+
+                qsData=qsData+updateInfo;
+//                alert("编辑的提交数据为："+qsData);
+                console.log("编辑的提交数据为："+qsData);
+                //发起请求
+                $.ajax({
+                    async: false,
+                    url: "https://www.smartlock.top/v0/updateAll",
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded",
+                    data: qsData,
+                    timeout: 8000,
+                    beforeSend: function ()
+                    {
+
+                    },
+                    success: function (result) {
+
+                        //将返回数据转化为json格式数据
+                        var infoJson =JSON.parse(result);
+
+                        //判断查询是否成功
+                        if (infoJson.error){
+                            var errInfo = infoJson.error;
+                            alert(errInfo.msg);
+                            if(errInfo.code=="00000"){
+                                window.location.href="login.html";
+                            };
+                            return;
+                        }else if (infoJson.success)
+                        {
+                            var sucInfo =  infoJson.success;
+                            var msg = sucInfo.msg;
+                            alert(msg);
+                            $(".popBox[title=addOneTask] input").val("");
+                            $(".model-bg[title=addOneTask],.popBox[title=addOneTask]").hide();
+                            queryUser(originalCompanyID,"");
+                        }else {
+                            alert("未知错误，请联系管理员！")
+                        }
+
+
+                    },
+                    error: function (result) {
+//                        console.log(result);
+                        alert("无法连接到服务器！");
+                    }
+                });
+
+            });
+
+        });
+
+
+
+
+
+
+
+
+
+
+
     </script>
 </head>
+
 
 <body onload=checkUserValidity()>
 <div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
     <div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
-
+        <!--<h1 id="sidebar-title"><a href="#">SimpleAdmin</a></h1>-->
         <!-- Logo (221px wide) -->
         <a href="#"><img id="logo" src="../assets/images/logo.png" alt="Simpla Admin logo" /></a>
 
@@ -1615,96 +1637,55 @@
                 </a>
             </li>
 
-
-            <li id="gongsiguanli">
-                <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
-                    公司管理
-                </a>
-                <ul>
-                    <li><a href="companyManage.html">公司查看</a></li> <!-- Add class "current" to sub menu items also -->
-                </ul>
-            </li>
-
-            <li id="peizhiguanli">
-                <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
-                    配置管理
-                </a>
-                <ul>
-                    <li><a href="configurationManage.html">配置管理</a></li> <!-- Add class "current" to sub menu items also -->
-                </ul>
-            </li>
-
-            <li id="diquguanli">
-                <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
-                    地区管理
-                </a>
-                <ul>
-                    <li><a href="zoneManage.html">地区管理</a></li> <!-- Add class "current" to sub menu items also -->
-                </ul>
-            </li>
-
-            <li id="jizhanguanli">
-                <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
-                    基站管理
-                </a>
-                <ul>
-                    <li><a  href="stationManage.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
-                    <li><a  href="stationManageLog.html">基站日志管理</a></li>
-                    <li><a  href="stationUpload.html">基站日志管理</a></li>
-                </ul>
-            </li>
-
+            <div id="jizhanguanli">
+                <li>
+                    <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
+                        基站管理
+                    </a>
+                    <ul>
+                        <li><a  href="stationManage.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+                        <li><a  href="stationManageLog.html">基站日志管理</a></li>
+                    </ul>
+                </li>
+            </div>
 
             <li>
                 <a href="#" class="nav-top-item current">
                     作业管理
                 </a>
                 <ul>
-                    <li><a  class="current" href="taskManage.html">工单列表</a></li>
+                    <li><a class="current" href="taskManage.html">工单列表</a></li>
                     <li><a  href="abnormalTaskManage.html">异常工单</a></li>
                 </ul>
             </li>
 
+            <div id="dianziyaoshiguanli">
+                <li>
+                    <a href="#" class="nav-top-item">
+                        电子钥匙管理
+                    </a>
+                    <ul>
+                        <li><a href="keyManage.html">钥匙列表</a></li>
+                        <li><a href="keyManageLog.html">钥匙日志</a></li>
+                    </ul>
+                </li>
+            </div>
 
-            <li id="dianziyaoshiguanli">
-                <a href="#" class="nav-top-item">
-                    电子钥匙管理
-                </a>
-                <ul>
-                    <li><a href="keyManage.html">钥匙列表</a></li>
-                    <li><a href="keyManageLog.html">钥匙日志</a></li>
-                    <li><a href="keyUpload.html">钥匙批量上传</a></li>
-                </ul>
-            </li>
-
-
-
-            <li id="yuangongguanli">
-                <a href="#" class="nav-top-item ">
-                    员工管理
-                </a>
-                <ul>
-                    <div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>
-                    <div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>
-                    <div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>
-                    <div id="dxyg"> <li><a href="telecom_manager.html" >中国电信员工管理</a></li> </div>
-                    <div id="sggsyg"> <li><a href="construction_manager.html">施工公司员工管理</a></li> </div>
-                    <div id="dwgsyg"> <li><a href="agent_manager.html">代维公司员工管理</a></li> </div>
-                    <div id="csyg"> <li><a href="manufacturer_manager.html">厂商商员工管理</a></li> </div>
-                </ul>
-            </li>
-
-            <li id="tongjiguanli">
-                <a href="#" class="nav-top-item">
-                    统计管理
-                </a>
-                <ul>
-                    <li><a href="statistic.html">门锁统计</a></li>
-                </ul>
-            </li>
-
+            <div id="yuangongguanli">
+                <li>
+                    <a href="tower_manager_main.html" class="nav-top-item ">
+                        员工管理
+                    </a>
+                    <ul>
+                        <div id="ttyg"> <li><a href="tower_manager_main.html">铁塔公司员工管理</a></li> </div>
+                        <div id="yysyg"> <li><a href="service_manager_main.html">运营商员工管理</a></li> </div>
+                        <div id="sggsyg"> <li><a href="construction_manager_main.html">施工公司员工管理</a></li> </div>
+                        <div id="dwgsyg"> <li><a href="agent_manager_main.html">代维公司员工管理</a></li> </div>
+                        <div id="csyg"> <li><a href="manufacturer_manager_main.html" >厂商商员工管理</a></li> </div>
+                    </ul>
+                </li>
+            </div>
         </ul> <!-- End #main-nav -->
-
     </div></div> <!-- End #sidebar -->
 
     <div id="main-content"> <!-- Main Content Section with everything -->
@@ -1712,13 +1693,9 @@
         <h2 id="username1"> </h2>
         <p id="page-intro">What would you like to do?</p>
         <div class="clear"></div> <!-- End .clear -->
-
         <div class="content-box"><!-- Start Content Box -->
-
             <div class="content-box-header">
-
                 <!--<h3>内容模块</h3>-->
-
                 <ul class="content-box-tabs">
                     <li><a href="#allTaskList" class="default-tab" >全部</a></li> <!-- href must be unique and match the id of target div -->
                     <li><a href="#pendingTaskList">待处理</a></li>
@@ -1796,6 +1773,80 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+
+            <!--新建工单弹出编辑框开始-->
+            <div class="dialog">
+                <div class="model-bg" title="addOneTask"></div>
+                <div class="popBox" title="addOneTask">
+                    <div class="ttBox">
+                        <a class="clsBtn" title="addOneTask"></a>
+                        <span class="tt">申请工单</span>
+                    </div>
+                    <div class="txtBox">
+                        <div class="item">
+                            <label for="add_stationAddress">基站地址：</label>
+                            <input type="text" id="add_stationAddress" >
+                        </div>
+                        <div class="item">
+                            <label for="add_applicantKeyID">授权钥匙ID：</label>
+                            <input type="text" id="add_applicantKeyID" >
+                        </div>
+                        <div class="item">
+                            <label for="add_applicationType">任务紧急情况</label>
+                            <select id="add_applicationType" class="edit_select" >
+                                <option value="普通" >普通</option>
+                                <option value="紧急" >紧急</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label for="add_applyDescription">申请描述：</label>
+                            <input type="text" id="add_applyDescription" >
+                            <!--<textarea rows="3" cols="20"  id="add_applyDescription" />-->
+                        </div>
+                        <div class="item">
+                            <label for="add_taskStartTime">开门开始时间：</label>
+                            <input id="add_taskStartTime" type="text" placeholder="请输入开始日期"  class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/>
+                        </div>
+                        <div class="item">
+                            <label for="add_taskEndTime">开门结束时间:</label>
+                            <input id="add_taskEndTime" type="text" placeholder="请输入开始日期"  class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/>
+                        </div>
+                        <div class="item">
+                            <label for="add_taskTimes">申请开门次数：</label>
+                            <select id="add_taskTimes" class="edit_select" >
+                                <option value="1" >1</option>
+                                <option value="2" >2</option>
+                                <option value="3" >3</option>
+                                <option value="4" >4</option>
+                                <option value="5" >5</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label for="add_applyType">申请工单类型 ：</label>
+                            <select id="add_applyType" class="edit_select">
+                                <option value="app">app</option>
+                                <option value="key">key</option>
+                            </select>
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="btnArea">
+                        <div class="btnGroup">
+                            <a class="sgBtn ok" id="submit_addOneTask">确定</a>
+                            <a class="sgBtn cancel" id="cancel_addOneTask">取消</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--新建工单框结束-->
             <div class="dialog">
                 <div class="model-bg" title="editPersonInfo"></div>
                 <div class="popBox" title="editPersonInfo">
@@ -1853,6 +1904,7 @@
                         <div class="screen-top">
                             <input class="button" id="allTaskListQuery" type="submit" value="查询" onclick="queryTask()" />
                             <input class="button" id="allTaskListReset" type="reset" value="重置" onclick="resetNoArgs()" />
+                            <input class="button" id="allTaskListAdd" type="button" value="增加" />
                             <input class="button" id="allTaskListExportxls" type="button" value="导出xls" onclick="exportXls()" />
                         </div>
                     </div>

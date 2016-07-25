@@ -1123,15 +1123,15 @@
 //                    { "data": "LAT" },
 //                    { "data": "LON" },
 //                    { "data": "HEI" },
-                    {
-                        "data":"_id",
-                        "render": function(data, type, full, meta) {
-                            return data = '<a href="#" id="deleteOne" title="Delete" value="'+data+'"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
-                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
-
-                        }
-                    }
+//                    {
+//                        "data":"_id",
+//                        "render": function(data, type, full, meta) {
+//                            return data = '<a href="#" id="deleteOne" title="Delete" value="'+data+'"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
+//                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+//                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
+//
+//                        }
+//                    }
                 ],
                 language: {
                     "sProcessing": "处理中...",
@@ -2223,14 +2223,12 @@
             </div>
             <!--弹出编辑框结束-->
             <div class="content-box-content">
-
                 <div class="tab-content default-tab" id="stationList"> 	<!-- This is the target div. id must match the href of this div's tab -->
                     <div class="content_wrap">
                         <div class="zTreeDemoBackground left">
                             <ul id="treeDemo" class="ztree"></ul>
                         </div>
                         <div class="right">
-
                             <!--<ul class="info">-->
                                 <!--<li class="title"><h2>1、beforeClick / onClick 事件回调函数控制</h2>-->
                                     <!--<ul class="list">-->
@@ -2243,8 +2241,6 @@
                                 <!--</li>-->
 
                             <!--</ul>-->
-
-
                             <div class="queryCondition" id="queryLock">
                                 <div class="screen-top">
                                     <!--<span>基站负责人<input id="chargePerson" type="text"/></span>-->
@@ -2268,16 +2264,8 @@
                                         <th>提供厂商</th>
                                         <th>基站编号</th>
                                         <th>基站地址</th>
-                                        <!--<th>负责人电话</th>-->
-                                        <!--<th>负责人公司</th>-->
-                                        <!--<th>所属省级</th>-->
-                                        <!--<th>所属市级</th>-->
-                                        <!--<th>所属区级</th>-->
-                                        <!--<th>经度</th>-->
-                                        <!--<th>纬度</th>-->
-                                        <!--<th>高度</th>-->
-                                        <!--<th>作业审批人电话</th>-->
-                                        <th>操作</th>
+
+                                        <!--<th>操作</th>-->
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
