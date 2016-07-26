@@ -11,6 +11,7 @@
  * Date: 2016-06-06
  */
 (function($){
+    /*---开始-----定义一系列javacript对象，用于增加Jquery的扩展方法---*/
 	var settings = {}, roots = {}, caches = {},
 	//default consts of core
 	_consts = {
@@ -1551,6 +1552,8 @@
 			}
 		}
 	};
+    /*---结束-----定义一系列javacript对象，用于增加Jquery的扩展方法---*/
+    
 	// zTree defind
 	$.fn.zTree = {
 		consts : _consts,
