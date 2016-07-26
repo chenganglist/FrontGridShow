@@ -59,6 +59,7 @@
     <!--Javascripts-->
     <!--JqueryDateTable-->
     <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css"/>
+    <script type="text/javascript" src="../assets/js/jquery-1.12.3.js"></script>
     <script type="text/javascript" src="../assets/js/jquery.dataTables.min.js"></script>
     <!-- jQuery -->
     <!-- jQuery Configuration -->
@@ -203,10 +204,51 @@
         };
 
         $(document).ready(function(){
-            var zonejson=getZoneGridJSon();
-            $.fn.zTree.init($("#treeDemo"), setting, zonejson);
-        });
+            //var zonejson=getZoneGridJSon();
+            //$.fn.zTree.init($("#treeDemo"), setting, zonejson);
 
+        });
+/*
+        $(document).ready(function() {
+            $('#gridInfo').DataTable( {
+                "ajax": "./objects.txt"
+            } );
+        } );*/
+        
+        $(document).ready(function() {
+            $('#gridInfo').DataTable({
+                "serverSide": true,
+                "ajax": {
+                    "url":"https://www.smartlock.top/v0/queryAllSpecial",
+                    "type":"POST",
+                    "data": function ( d ) {
+         
+                        d.operatorName = userInfo.username;
+                        d.accessToken = accessToken;
+
+                    },
+                },
+                "columns": [
+                    {
+                        "data":"_id",
+                        "orderable": false,
+                        "render": function(data, type, full, meta) {
+                            return data = '<input type="checkbox" id="checkbox" value="'+data+'" title="'+data+'"/>';
+
+                        }
+                    },
+                    { "data": "companyName" },
+                    { "data": "gridID" },
+                    { "data": "gridRoleName" },
+                    { "data": "gridRoleType" },
+                    { "data": "gridStatus" },
+                    { "data": "startTime" },
+                    { "data": "endTime" }
+                ]
+            });
+        } );
+
+        
         //显示条目编辑框
         $(document).ready(function() {
             $(".model").click(function(event) {
@@ -497,6 +539,7 @@
         /**
          * datables初始化
          */
+         /*
         $(document).ready(function() {
             //初始化展示框
             table = $('#gridInfo').DataTable( {
@@ -562,6 +605,7 @@
 //               initComplete: initComplete
             })
         } );
+        */
         /**
          * 按钮点击功能
          */
