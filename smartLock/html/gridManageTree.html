@@ -59,6 +59,7 @@
     <!--Javascripts-->
     <!--JqueryDateTable-->
     <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css"/>
+	<script type="text/javascript" src="../assets/js/jquery-1.12.3.js"></script>
     <script type="text/javascript" src="../assets/js/jquery.dataTables.min.js"></script>
     <!-- jQuery -->
     <!-- jQuery Configuration -->
@@ -202,10 +203,10 @@
             }
         };
 
-        $(document).ready(function(){
+        /*$(document).ready(function(){
             var zonejson=getZoneGridJSon();
             $.fn.zTree.init($("#treeDemo"), setting, zonejson);
-        });
+        });*/
 
         //显示条目编辑框
         $(document).ready(function() {
@@ -494,12 +495,87 @@
         var userInfo=JSON.parse(localStorage.getItem("userInfo"));
         var tokenEndTime=localStorage.getItem("tokenEndTime");
         var originalKeyID = "";
+		
+		$(document).ready(function() {
+			$('#gridInfo').DataTable( {
+				"processing": true,
+				"serverSide": true,
+				"dataSrc": "",
+				"ajax": {
+					"url": "https://www.smartlock.top/v0/queryAll",
+					"type": "POST",
+					"data":function ( d ) {
+						d.operatorName = userInfo.username;
+						d.accessToken = accessToken;
+					}
+				},
+				"aoColumns": [
+                    {
+                        "data":"_id",
+                        "orderable": false,
+                        "render": function(data, type, full, meta) {
+                            return data = '<input type="checkbox" id="checkbox" value="'+data+'" title="'+data+'"/>';
+
+                        }
+                    },
+                    {
+                        "data": "keyID",
+                        "sClass" : "center"
+                    },
+                    { "data": "managementProvince" },
+                    {
+                        "data": "managementCity"
+                    },
+                    {
+                        "data":"managementArea",
+                    },
+//                    {
+//                        "data":"gridID",
+//                    },
+                   {
+                        "data":"_id",
+                        "render": function(data, type, full, meta) {
+                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
+                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                                    '<a href="#" id="keyEdit" title="keyEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
+
+                        }
+                    }
+                ],
+                language: {
+                    "sProcessing": "处理中...",
+                    "sLengthMenu": "显示 _MENU_ 项结果",
+                    "sZeroRecords": "没有匹配结果",
+                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix": "",
+                    "sSearch": "搜索:",
+                    "sUrl": "",
+                    "sEmptyTable": "表中数据为空",
+                    "sLoadingRecords": "载入中...",
+                    "sInfoThousands": ",",
+                    "oPaginate": {
+                        "sFirst": "首页",
+                        "sPrevious": "上页",
+                        "sNext": "下页",
+                        "sLast": "末页"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": 以升序排列此列",
+                        "sSortDescending": ": 以降序排列此列"
+                    }
+                }
+			} );
+		} );		
+		
         /**
          * datables初始化
          */
+		/*
         $(document).ready(function() {
             //初始化展示框
-            table = $('#gridInfo').DataTable( {
+          table = $('#gridInfo').DataTable( {
                 "searching": false,
                 "bStateSave": false,
                 "aoColumns": [
@@ -562,6 +638,7 @@
 //               initComplete: initComplete
             })
         } );
+		*/
         /**
          * 按钮点击功能
          */
