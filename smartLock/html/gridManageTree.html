@@ -24,60 +24,70 @@
             color: #333;
             width: 15% !important;
         }
-        #createGridFieldSet strong{
-            width: 100px;
+        #createStationFieldSet strong{
+            width: 120px;
             line-height: 30px;
             display: inline-block;
             text-align: left;
         }
+
+
+
+
+
+
+
     </style>
     <!--CSS-->
-    <link rel="stylesheet" href="../assets/css/demo.css" type="text/css">
-    <link rel="stylesheet" href="../assets/css/zTreeStyle.css" type="text/css">
-    <script type="text/javascript" src="../assets/js/jquery.ztree.core.js"></script>
-
+	<link rel="stylesheet" href="../assets/css/demo.css" type="text/css">
+	<link rel="stylesheet" href="../assets/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="../assets/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="../assets/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="../assets/js/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="../assets/js/jquery.ztree.exedit.js"></script>
     <script type="text/javascript" src="../assets/js/jquery-1.8.0.min.js"></script>
     <!-- Reset Stylesheet -->
     <link rel="stylesheet" href="../assets/css/reset.css" type="text/css" media="screen" />
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="../assets/css/style.css" type="text/css" media="screen" />
-    <!-- dialog Stylesheet -->
-    <link href="../assets/css/dialog.css" rel="stylesheet" type="text/css"/>
     <!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
     <link rel="stylesheet" href="../assets/css/invalid.css" type="text/css" media="screen" />
-    <!-- SweetAlert-->
-    <script type="text/javascript" src="../assets/js/sweet-alert.min.js"></script>
-    <link rel="stylesheet" href="../assets/css/sweet-alert.css"/>
     <!-- Colour Schemes  -->
     <!--Default colour scheme is green. Uncomment prefered stylesheet to use it.-->
-    <link rel="stylesheet" href="../assets/css/blue.css" type="text/css" media="screen" />
+    <!--<link rel="stylesheet" href="../assets/css/blue.css" type="text/css" media="screen" />-->
     <!--<link rel="stylesheet" href="../assets/css/red.css" type="text/ css" media="screen" />-->
     <!-- Internet Explorer Fixes Stylesheet -->
     <!--[if lte IE 7]>
     <link rel="stylesheet" href="../assets/css/ie.css" type="text/css" media="screen" />
     <![endif]-->
-    <!--Javascripts-->
     <!--JqueryDateTable-->
     <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css"/>
-<<<<<<< HEAD
-    <script type="text/javascript" src="../assets/js/jquery-1.12.3.js"></script>
-=======
-	<script type="text/javascript" src="../assets/js/jquery-1.12.3.js"></script>
->>>>>>> 7cf58fd537a38f5449e36253775418d30b3e4dcb
     <script type="text/javascript" src="../assets/js/jquery.dataTables.min.js"></script>
+    <!-- SweetAlert-->
+    <script type="text/javascript" src="../assets/js/sweet-alert.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/sweet-alert.css"/>
     <!-- jQuery -->
     <!-- jQuery Configuration -->
     <script type="text/javascript" src="../assets/js/simpla.jquery.configuration.js"></script>
-    <!-- jQuery Datepicker Plugin -->
-    <script type="text/javascript" src="../assets/js/citySelect.js"></script>
-    <script type="text/javascript" src="../assets/js/pccs.js"></script>
+    <!--<script type="text/javascript" src="../assets/js/pccs.js"></script>-->
+    <!-- jQuery Date Plugin -->
+
+    <link rel="stylesheet" href="../assets/css/demo.css" type="text/css">
+    <link rel="stylesheet" href="../assets/css/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="../assets/js/jquery.ztree.core.js"></script>
+
+
     <!--[if IE]><script type="text/javascript" src="../assets/js/jquery.bgiframe.js"></script><![endif]-->
     <!-- Internet Explorer .png-fix -->
     <!--[if IE 6]>
     <script type="text/javascript" src="../assets/js/DD_belatedPNG_0.0.7a.js"></script>
+
     <script type="text/javascript">
         DD_belatedPNG.fix('.png_bg, img, li');
     </script>
+    <![endif]-->
+    <!--编辑框开始-->
+    <!-- dialog Stylesheet -->
     <link href="../assets/css/dialog.css" rel="stylesheet" type="text/css"/>
     <style type="text/css">
         .ztree li span.treeButton.pIcon01_ico_open{margin-right:2px; background: url(../assets/css/img/diy/1_open.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
@@ -90,9 +100,9 @@
         .ztree li span.treeButton.icon05_ico_docu{margin-right:2px; background: url(../assets/css/img/diy/7.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
         .ztree li span.treeButton.icon06_ico_docu{margin-right:2px; background: url(../assets/css/img/diy/8.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
     </style>
-    <![endif]-->
-    <!--编辑框开始-->
     <script type="text/javascript">
+
+    var treeObj;
 
     function getZoneGridJSon()
     {
@@ -167,18 +177,40 @@
             return zoneJson;
         }
 
+        function showLog(str) {
+            if (!log) log = $("#log");
+            log.append("<li class='"+className+"'>"+str+"</li>");
+            if(log.children("li").length > 8) {
+                log.get(0).removeChild(log.children("li")[0]);
+            }
+        }
+        function getTime() {
+            var now= new Date(),
+                    h=now.getHours(),
+                    m=now.getMinutes(),
+                    s=now.getSeconds();
+            return (h+":"+m+":"+s);
+        }
+
+
         var log, className = "dark";
         function beforeClick(treeId, treeNode, clickFlag) {
             className = (className === "dark" ? "":"dark");
             showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
             return (treeNode.click != false);
         }
+        
+        var newCount = 1;
         function onClick(event, treeId, treeNode, clickFlag)
         {
             showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
 
 
+            alert(JSON.stringify(treeNode));
 
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)});
+            
             if (treeNode.node_level == 2)
             {
                 queryUser("",treeNode.node_id);
@@ -207,18 +239,13 @@
             }
         };
 
-<<<<<<< HEAD
+
         $(document).ready(function(){
             //var zonejson=getZoneGridJSon();
             //$.fn.zTree.init($("#treeDemo"), setting, zonejson);
 
         });
-/*
-        $(document).ready(function() {
-            $('#gridInfo').DataTable( {
-                "ajax": "./objects.txt"
-            } );
-        } );*/
+
         
         $(document).ready(function() {
             $('#gridInfo').DataTable({
@@ -230,12 +257,6 @@
          
                         d.operatorName = userInfo.username;
                         d.accessToken = accessToken;
-=======
-        /*$(document).ready(function(){
-            var zonejson=getZoneGridJSon();
-            $.fn.zTree.init($("#treeDemo"), setting, zonejson);
-        });*/
->>>>>>> 7cf58fd537a38f5449e36253775418d30b3e4dcb
 
                     },
                 },
@@ -258,6 +279,23 @@
                 ]
             });
         } );
+
+        $(document).ready(function(){
+            //var zonejson=getZoneGridJSon();
+            var zonejson = [
+            {id:1,name:"角色分组",node_level:1,open:true,pId:0},
+            {id:2,name:"角色1",node_level:2,open:true,pId:1},
+            {id:3,name:"角色2",node_level:2,open:true,pId:1},
+            {id:4,name:"角色3",node_level:2,open:true,pId:1},
+            {id:5,name:"角色4",node_level:2,open:true,pId:1}
+            ];
+            treeObj = $.fn.zTree.init($("#treeDemo"), setting, zonejson);
+            // var newNode = {iconSkin:"icon01",
+            //                name:"角色分组",
+            //                node_level:1,open:true};
+            // newNode = treeObj.addNodes(null, newNode);
+            
+        });
 
         
         //显示条目编辑框
@@ -548,157 +586,7 @@
         var tokenEndTime=localStorage.getItem("tokenEndTime");
         var originalKeyID = "";
 		
-		$(document).ready(function() {
-			$('#gridInfo').DataTable( {
-				"processing": true,
-				"serverSide": true,
-				"dataSrc": "",
-				"ajax": {
-					"url": "https://www.smartlock.top/v0/queryAll",
-					"type": "POST",
-					"data":function ( d ) {
-						d.operatorName = userInfo.username;
-						d.accessToken = accessToken;
-					}
-				},
-				"aoColumns": [
-                    {
-                        "data":"_id",
-                        "orderable": false,
-                        "render": function(data, type, full, meta) {
-                            return data = '<input type="checkbox" id="checkbox" value="'+data+'" title="'+data+'"/>';
-
-                        }
-                    },
-                    {
-                        "data": "keyID",
-                        "sClass" : "center"
-                    },
-                    { "data": "managementProvince" },
-                    {
-                        "data": "managementCity"
-                    },
-                    {
-                        "data":"managementArea",
-                    },
-//                    {
-//                        "data":"gridID",
-//                    },
-                   {
-                        "data":"_id",
-                        "render": function(data, type, full, meta) {
-                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
-                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    '<a href="#" id="keyEdit" title="keyEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
-
-                        }
-                    }
-                ],
-                language: {
-                    "sProcessing": "处理中...",
-                    "sLengthMenu": "显示 _MENU_ 项结果",
-                    "sZeroRecords": "没有匹配结果",
-                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-                    "sInfoPostFix": "",
-                    "sSearch": "搜索:",
-                    "sUrl": "",
-                    "sEmptyTable": "表中数据为空",
-                    "sLoadingRecords": "载入中...",
-                    "sInfoThousands": ",",
-                    "oPaginate": {
-                        "sFirst": "首页",
-                        "sPrevious": "上页",
-                        "sNext": "下页",
-                        "sLast": "末页"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": 以升序排列此列",
-                        "sSortDescending": ": 以降序排列此列"
-                    }
-                }
-			} );
-		} );		
 		
-        /**
-         * datables初始化
-         */
-<<<<<<< HEAD
-         /*
-=======
-		/*
->>>>>>> 7cf58fd537a38f5449e36253775418d30b3e4dcb
-        $(document).ready(function() {
-            //初始化展示框
-          table = $('#gridInfo').DataTable( {
-                "searching": false,
-                "bStateSave": false,
-                "aoColumns": [
-                    {
-                        "data":"_id",
-                        "orderable": false,
-                        "render": function(data, type, full, meta) {
-                            return data = '<input type="checkbox" id="checkbox" value="'+data+'" title="'+data+'"/>';
-
-                        }
-                    },
-                    {
-                        "data": "keyID",
-                        "sClass" : "center"
-                    },
-                    { "data": "managementProvince" },
-                    {
-                        "data": "managementCity"
-                    },
-                    {
-                        "data":"managementArea",
-                    },
-//                    {
-//                        "data":"gridID",
-//                    },
-                   {
-                        "data":"_id",
-                        "render": function(data, type, full, meta) {
-                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
-                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    '<a href="#" id="keyEdit" title="keyEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
-
-                        }
-                    }
-                ],
-                language: {
-                    "sProcessing": "处理中...",
-                    "sLengthMenu": "显示 _MENU_ 项结果",
-                    "sZeroRecords": "没有匹配结果",
-                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-                    "sInfoPostFix": "",
-                    "sSearch": "搜索:",
-                    "sUrl": "",
-                    "sEmptyTable": "表中数据为空",
-                    "sLoadingRecords": "载入中...",
-                    "sInfoThousands": ",",
-                    "oPaginate": {
-                        "sFirst": "首页",
-                        "sPrevious": "上页",
-                        "sNext": "下页",
-                        "sLast": "末页"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": 以升序排列此列",
-                        "sSortDescending": ": 以降序排列此列"
-                    }
-                },
-//               initComplete: initComplete
-            })
-        } );
-<<<<<<< HEAD
-        */
-=======
-		*/
->>>>>>> 7cf58fd537a38f5449e36253775418d30b3e4dcb
         /**
          * 按钮点击功能
          */
@@ -1725,7 +1613,7 @@
     </script>
 </head>
 
-<body onload=checkUserValidity()>
+<body>
 <div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
 
     <div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
