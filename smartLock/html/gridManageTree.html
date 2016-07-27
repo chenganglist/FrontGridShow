@@ -208,19 +208,29 @@
 
             alert(JSON.stringify(treeNode));
 
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)});
-            
-            if (treeNode.node_level == 2)
+      
+            /*if (treeNode.node_level == 1)
             {
-                queryUser("",treeNode.node_id);
+                //queryUser("",treeNode.node_id);
             }
-            else if (treeNode.node_level == 1)
+            else if (treeNode.node_level == 2)
             {
 
-                queryUser(treeNode.node_id,"");
-            }
-
+                //queryUser(treeNode.node_id,"");
+            }*/
+			
+			if(treeNode.node_level<=3)
+			{
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var micon1 = '../assets/css/zTreeStyle/img/diy/1_open.png';
+				var micon2 = '../assets/css/zTreeStyle/img/diy/3.png';
+				var micon = (treeNode.node_level<3)?micon1:micon2;
+				zTree.removeChildNodes(treeNode);
+				//zTree.updateNode(treeNode);
+				zTree.addNodes(treeNode, 
+				{id:(100 + newCount), pId:treeNode.id,node_level:treeNode.node_level+1,
+				icon:micon,name:"new node" + (newCount++)});					
+			}
 
         }
         
@@ -283,11 +293,11 @@
         $(document).ready(function(){
             //var zonejson=getZoneGridJSon();
             var zonejson = [
-            {id:1,name:"角色分组",node_level:1,open:true,pId:0},
-            {id:2,name:"角色1",node_level:2,open:true,pId:1},
-            {id:3,name:"角色2",node_level:2,open:true,pId:1},
-            {id:4,name:"角色3",node_level:2,open:true,pId:1},
-            {id:5,name:"角色4",node_level:2,open:true,pId:1}
+            {id:1,name:"角色分组1",node_level:1,open:true,pId:0,icon:'../assets/css/zTreeStyle/img/diy/1_open.png'},
+            {id:2,name:"角色分组2",node_level:1,open:true,pId:0,icon:'../assets/css/zTreeStyle/img/diy/1_open.png'},
+            {id:3,name:"角色分组3",node_level:1,open:true,pId:0,icon:'../assets/css/zTreeStyle/img/diy/1_open.png'},
+            {id:4,name:"角色分组4",node_level:1,open:true,pId:0,icon:'../assets/css/zTreeStyle/img/diy/1_open.png'},
+            {id:5,name:"角色分组5",node_level:1,open:true,pId:0,icon:'../assets/css/zTreeStyle/img/diy/1_open.png'}
             ];
             treeObj = $.fn.zTree.init($("#treeDemo"), setting, zonejson);
             // var newNode = {iconSkin:"icon01",
